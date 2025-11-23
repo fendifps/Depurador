@@ -87,6 +87,11 @@ class DepuradorCore:
         print(f"{Fore.WHITE}[4] {Fore.YELLOW}Custom Path Scan")
         print(f"{Fore.WHITE}[5] {Fore.YELLOW}View Last Scan Report")
         print(f"{Fore.WHITE}[6] {Fore.YELLOW}Update Signatures")
+        
+        # Mostrar estado de ML
+        ml_status = f"{Fore.GREEN}ENABLED" if self.analyzer.ml_classifier and self.analyzer.ml_classifier.enabled else f"{Fore.RED}DISABLED"
+        print(f"{Fore.WHITE}[7] {Fore.YELLOW}Toggle ML Classifier ({ml_status}{Fore.YELLOW})")
+        
         print(f"{Fore.WHITE}[0] {Fore.RED}Exit")
         print(f"{Fore.CYAN}{'═' * 65}")
         
@@ -110,6 +115,8 @@ class DepuradorCore:
                 self.view_report()
             elif choice == "6":
                 self.update_signatures()
+            elif choice == "7":
+                self.toggle_ml_classifier()
             elif choice == "0":
                 print(f"\n{Fore.CYAN}[!] Exiting Depurador... Stay safe!")
                 break
@@ -203,6 +210,26 @@ class DepuradorCore:
             print(f"{Fore.GREEN}[✓] {len(self.signature_engine.malware_hashes)} signatures loaded")
         except Exception as e:
             print(f"{Fore.RED}[✗] Error updating signatures: {e}")
+    
+    def toggle_ml_classifier(self):
+        """Activar/desactivar clasificador ML"""
+        if not self.analyzer.ml_classifier:
+            print(f"\n{Fore.RED}[✗] ML Classifier not available (missing ml_classifier.py)")
+            return
+        
+        current_status = self.analyzer.ml_classifier.enabled
+        self.analyzer.ml_classifier.enabled = not current_status
+        
+        new_status = "ENABLED" if self.analyzer.ml_classifier.enabled else "DISABLED"
+        status_color = Fore.GREEN if self.analyzer.ml_classifier.enabled else Fore.RED
+        
+        print(f"\n{status_color}[✓] ML Classifier is now {new_status}")
+        
+        if self.analyzer.ml_classifier.enabled:
+            print(f"{Fore.CYAN}[i] ML will help reduce false positives")
+            print(f"{Fore.CYAN}[i] Recursive refinement steps: {self.analyzer.ml_classifier.refinement_steps}")
+        else:
+            print(f"{Fore.YELLOW}[i] Using heuristic-only detection")
     
     def _display_results(self, results):
         """Mostrar resultados del escaneo"""

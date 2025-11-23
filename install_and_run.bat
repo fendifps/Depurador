@@ -1,11 +1,11 @@
 @echo off
 setlocal enabledelayedexpansion
-title Depurador - Automatic Installation System
+title Depurador v2.0 - Automatic Installation System
 color 0A
 
 :: ============================================================================
-:: DEPURADOR - AUTOMATIC INSTALLATION AND SETUP SCRIPT
-:: Version: 1.0.0
+:: DEPURADOR v2.0 - AUTOMATIC INSTALLATION AND SETUP SCRIPT
+:: Version: 2.0.0 - With ML Classifier Integration
 :: Compatible: Windows 10/11
 :: ============================================================================
 
@@ -29,7 +29,8 @@ echo    #   #  ####   ####   #   #  ####   #####  #   #  #   #  ####
 echo    #   #  #      #      #   #  #   #  #   #  #   #  #   #  #   # 
 echo    ####   #####  #       ###   #   #  #   #  ####    ###   #   # 
 echo.
-echo                MALWARE SCANNER ELITE - AUTO INSTALLER
+echo         MALWARE SCANNER ELITE v2.0 - AUTO INSTALLER
+echo              WITH ML CLASSIFIER INTEGRATION
 echo.
 echo ===============================================================================
 echo.
@@ -41,7 +42,7 @@ set "SRC_DIR=%PROJECT_DIR%\src"
 set "LOGS_DIR=%PROJECT_DIR%\logs"
 set "SIGNATURES_DIR=%PROJECT_DIR%\signatures"
 
-echo [1/8] Checking Python installation...
+echo [1/9] Checking Python installation...
 echo -------------------------------------------------------------------------------
 
 :: Check if Python is installed
@@ -62,7 +63,7 @@ if %errorLevel% neq 0 (
 )
 
 echo.
-echo [2/8] Creating project structure...
+echo [2/9] Creating project structure...
 echo -------------------------------------------------------------------------------
 
 :: Create project directories
@@ -78,7 +79,7 @@ echo     - %LOGS_DIR%
 echo     - %SIGNATURES_DIR%
 
 echo.
-echo [3/8] Creating virtual environment...
+echo [3/9] Creating virtual environment...
 echo -------------------------------------------------------------------------------
 
 if exist "%VENV_DIR%" (
@@ -96,7 +97,7 @@ if %errorLevel% neq 0 (
 echo [√] Virtual environment created: %VENV_DIR%
 
 echo.
-echo [4/8] Activating virtual environment...
+echo [4/9] Activating virtual environment...
 echo -------------------------------------------------------------------------------
 
 call "%VENV_DIR%\Scripts\activate.bat"
@@ -109,14 +110,14 @@ if %errorLevel% neq 0 (
 echo [√] Virtual environment activated
 
 echo.
-echo [5/8] Upgrading pip...
+echo [5/9] Upgrading pip...
 echo -------------------------------------------------------------------------------
 
 python -m pip install --upgrade pip --quiet
 echo [√] pip upgraded successfully
 
 echo.
-echo [6/8] Installing dependencies...
+echo [6/9] Installing dependencies...
 echo -------------------------------------------------------------------------------
 echo [i] This may take a few minutes...
 echo.
@@ -134,7 +135,7 @@ echo.
 echo [√] All dependencies installed successfully
 
 echo.
-echo [7/8] Verifying installation...
+echo [7/9] Verifying installation...
 echo -------------------------------------------------------------------------------
 
 python -c "import colorama; import pefile; import hashlib; import json; print('[√] All imports successful')" 2>nul
@@ -146,7 +147,7 @@ if %errorLevel% neq 0 (
 )
 
 echo.
-echo [8/8] Checking project files...
+echo [8/9] Checking project files...
 echo -------------------------------------------------------------------------------
 
 set "FILES_OK=1"
@@ -186,6 +187,14 @@ if not exist "%SRC_DIR%\logger.py" (
     echo [√] Found: logger.py
 )
 
+if not exist "%SRC_DIR%\ml_classifier.py" (
+    echo [!] Warning: ml_classifier.py not found
+    echo [i] ML Classifier will be disabled
+    echo [i] Download ml_classifier.py to enable ML features
+) else (
+    echo [√] Found: ml_classifier.py (ML Classifier available!)
+)
+
 if not exist "%PROJECT_DIR%\config.json" (
     echo [X] Missing: config.json
     set "FILES_OK=0"
@@ -196,19 +205,36 @@ if not exist "%PROJECT_DIR%\config.json" (
 if not exist "%SIGNATURES_DIR%\malware_hashes.json" (
     echo [!] Warning: malware_hashes.json not found
     echo [i] Creating empty signature database...
-    echo {"hashes": {}, "version": "1.0.0"} > "%SIGNATURES_DIR%\malware_hashes.json"
+    echo {"hashes": {}, "version": "2.0.0"} > "%SIGNATURES_DIR%\malware_hashes.json"
 )
 
 if not exist "%SIGNATURES_DIR%\heuristic_rules.json" (
     echo [!] Warning: heuristic_rules.json not found
     echo [i] Creating empty rules database...
-    echo {"rules": [], "version": "1.0.0"} > "%SIGNATURES_DIR%\heuristic_rules.json"
+    echo {"rules": [], "version": "2.0.0"} > "%SIGNATURES_DIR%\heuristic_rules.json"
 )
 
 if not exist "%SIGNATURES_DIR%\behavioral_patterns.json" (
     echo [!] Warning: behavioral_patterns.json not found
     echo [i] Creating empty patterns database...
-    echo {"patterns": [], "filename_patterns": [], "version": "1.0.0"} > "%SIGNATURES_DIR%\behavioral_patterns.json"
+    echo {"patterns": [], "filename_patterns": [], "version": "2.0.0"} > "%SIGNATURES_DIR%\behavioral_patterns.json"
+)
+
+echo.
+echo [9/9] Initializing ML Classifier...
+echo -------------------------------------------------------------------------------
+
+if exist "%SRC_DIR%\ml_classifier.py" (
+    python -c "import sys; sys.path.insert(0, r'%SRC_DIR%'); from ml_classifier import RecursiveClassifier; c = RecursiveClassifier(); print('[√] ML Classifier initialized successfully')" 2>nul
+    if %errorLevel% neq 0 (
+        echo [!] Warning: ML Classifier initialization had issues
+        echo [i] ML features may not work correctly
+    ) else (
+        echo [√] ML Classifier ready - False positive reduction enabled
+    )
+) else (
+    echo [!] ML Classifier not available (ml_classifier.py missing)
+    echo [i] Depurador will run with heuristics only
 )
 
 echo.
@@ -228,12 +254,17 @@ if "%FILES_OK%"=="0" (
 echo [√] All systems ready
 echo [√] Virtual environment: %VENV_DIR%
 echo [√] Project directory: %PROJECT_DIR%
+if exist "%SRC_DIR%\ml_classifier.py" (
+    echo [√] ML Classifier: ENABLED
+) else (
+    echo [!] ML Classifier: DISABLED
+)
 echo.
 echo ===============================================================================
 echo.
 
 :: Ask user if they want to start the scanner
-choice /C YN /M "Do you want to start Depurador now"
+choice /C YN /M "Do you want to start Depurador v2.0 now"
 if errorlevel 2 goto :end
 if errorlevel 1 goto :run
 
@@ -241,7 +272,7 @@ if errorlevel 1 goto :run
 cls
 echo.
 echo ===============================================================================
-echo                      LAUNCHING DEPURADOR SCANNER
+echo                  LAUNCHING DEPURADOR v2.0 SCANNER
 echo ===============================================================================
 echo.
 
@@ -259,8 +290,13 @@ echo     %VENV_DIR%\Scripts\activate.bat
 echo     cd %SRC_DIR%
 echo     python main.py
 echo.
-echo [i] Or simply run this batch file again
+echo [i] Or simply run: run_depurador.bat
 echo.
+if exist "%PROJECT_DIR%\demo_ml_classifier.py" (
+    echo [i] To test ML Classifier, run:
+    echo     python demo_ml_classifier.py
+    echo.
+)
 echo ===============================================================================
 echo.
 pause

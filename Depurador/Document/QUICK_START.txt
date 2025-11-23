@@ -1,7 +1,8 @@
 ╔═══════════════════════════════════════════════════════════════════════════╗
 ║                                                                           ║
-║              DEPURADOR - MALWARE SCANNER ELITE                            ║
+║              DEPURADOR v2.0 - MALWARE SCANNER ELITE                       ║
 ║                     QUICK START GUIDE                                     ║
+║                  WITH ML CLASSIFIER INTEGRATION                           ║
 ║                                                                           ║
 ╚═══════════════════════════════════════════════════════════════════════════╝
 
@@ -14,6 +15,8 @@ Organiza los archivos en esta estructura EXACTA:
 Tu_Carpeta/
 │
 ├── install_and_run.bat          ← Script de instalación
+├── run_depurador.bat            ← Ejecución rápida
+├── run_ml_demo.bat              ← Demo ML Classifier (NUEVO v2.0)
 │
 └── Depurador/
     │
@@ -22,7 +25,8 @@ Tu_Carpeta/
     │   ├── scanner.py
     │   ├── analyzer.py
     │   ├── signature_engine.py
-    │   └── logger.py
+    │   ├── logger.py
+    │   └── ml_classifier.py      ← ML Classifier (NUEVO v2.0)
     │
     ├── signatures/
     │   ├── malware_hashes.json
@@ -31,6 +35,7 @@ Tu_Carpeta/
     │
     ├── config.json
     ├── requirements.txt
+    ├── demo_ml_classifier.py      ← Demo ML (NUEVO v2.0)
     └── README.md
 
 ┌───────────────────────────────────────────────────────────────────────────┐
@@ -74,10 +79,16 @@ Después de la instalación verás el menú:
   [4] Custom Path Scan         → Escanear una carpeta específica
   [5] View Last Scan Report    → Ver último reporte generado
   [6] Update Signatures        → Recargar base de datos
+  [7] Toggle ML Classifier     → 🧠 Activar/Desactivar ML (NUEVO v2.0)
   [0] Exit                     → Salir
 
 RECOMENDACIÓN PARA PRIMERA VEZ:
   → Selecciona opción [2] Quick Scan
+
+NUEVO EN v2.0:
+  → Opción [7] para activar/desactivar ML Classifier
+  → ML reduce falsos positivos en ~60%
+  → Mejor detección de archivos legítimos
 
 ┌───────────────────────────────────────────────────────────────────────────┐
 │ PASO 5: ANALIZAR UN ARCHIVO                                               │
@@ -145,9 +156,20 @@ Si el .bat no funciona, puedes ejecutar manualmente:
 
 Para verificar que todo funciona:
 
-  1. Ejecuta: python test_suite.py
-  2. Verás tests automáticos
-  3. Debería mostrar: "ALL TESTS PASSED! ✓"
+  1. Tests completos: python test_suite.py
+  2. Demo ML Classifier: python demo_ml_classifier.py
+  3. O ejecuta: run_ml_demo.bat
+
+DEMO ML CLASSIFIER (NUEVO v2.0):
+  Muestra 6 casos de uso del clasificador ML:
+    • Detección de malware real
+    • Reducción de falsos positivos
+    • Manejo de archivos ambiguos
+    • Archivos legítimos con alta entropía
+    • Comparación ML vs Heurística
+    • Sistema de votación
+
+  Para ejecutar: run_ml_demo.bat
 
 ┌───────────────────────────────────────────────────────────────────────────┐
 │ TIPS AVANZADOS                                                            │

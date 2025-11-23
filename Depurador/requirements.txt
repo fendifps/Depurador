@@ -1,2 +1,6 @@
 colorama>=0.4.6
 pefile>=2023.2.7
+
+# ML Classifier Requirements (opcional - el sistema funciona sin ellos)
+numpy>=1.24.0  # Solo si quieres agregar análisis numérico avanzado
+# scikit-learn>=1.3.0  # Solo si quieres entrenar modelos reales

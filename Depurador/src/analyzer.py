@@ -1,6 +1,7 @@
 """
 Depurador - File Analyzer Module
 Análisis detallado de ejecutables y archivos sospechosos
+INTEGRACIÓN: ML Recursive Classifier para reducir falsos positivos
 """
 
 import os
@@ -8,13 +9,21 @@ import hashlib
 from pathlib import Path
 from colorama import Fore
 
+try:
+    from ml_classifier import RecursiveClassifier
+    ML_AVAILABLE = True
+except ImportError:
+    ML_AVAILABLE = False
+    print(f"{Fore.YELLOW}[!] ML Classifier not available. Install or check ml_classifier.py")
+
 
 class FileAnalyzer:
     """Analizador de archivos individuales"""
     
-    def __init__(self, signature_engine, logger):
+    def __init__(self, signature_engine, logger, enable_ml=True):
         self.signature_engine = signature_engine
         self.logger = logger
+        self.ml_classifier = RecursiveClassifier(enable_ml=enable_ml) if ML_AVAILABLE else None
     
     def analyze_file(self, file_path):
         """Análisis completo de un archivo"""
@@ -71,6 +80,46 @@ class FileAnalyzer:
                     result['is_malicious'] = True
                     result['reasons'].extend(script_result['reasons'])
             
+            # ========== INTEGRACIÓN ML CLASSIFIER ==========
+            if self.ml_classifier and self.ml_classifier.enabled:
+                # Preparar info para ML
+                ml_file_info = {
+                    'file': file_path,
+                    'size': result['size'],
+                    'entropy': self._calculate_entropy_from_content(content) if 'content' in locals() else 0,
+                    'known_malware_hash': 'known malware' in ' '.join(result['reasons']).lower(),
+                    'suspicious_apis': self._extract_apis(result.get('pe_info', {})),
+                    'suspicious_strings': [r for r in result['reasons'] if 'string' in r.lower() or 'keyword' in r.lower()],
+                    'behavioral_flags': [r for r in result['reasons'] if 'behavior' in r.lower() or 'api' in r.lower()],
+                    'filename_suspicious': 'filename' in ' '.join(result['reasons']).lower(),
+                    'digital_signature': self._check_digital_signature(file_path)
+                }
+                
+                # Clasificación ML
+                ml_result = self.ml_classifier.classify(ml_file_info)
+                
+                # Votación con heurística
+                heuristic_result = {
+                    'classification': 'malicious' if result['is_malicious'] else 'benign',
+                    'confidence': 0.7 if result['is_malicious'] else 0.6
+                }
+                
+                final_decision = self.ml_classifier.vote_with_heuristics(ml_result, heuristic_result)
+                
+                # Actualizar resultado basado en ML
+                result['ml_analysis'] = ml_result
+                result['final_decision'] = final_decision
+                
+                # Override si ML dice que es falso positivo
+                if final_decision['final_classification'] == 'benign' and final_decision['confidence'] > 0.75:
+                    result['is_malicious'] = False
+                    result['reasons'].append(f"ML Classifier Override: {ml_result['justification']}")
+                    result['ml_override'] = True
+                elif final_decision['final_classification'] == 'malicious' and not result['is_malicious']:
+                    result['is_malicious'] = True
+                    result['reasons'].append(f"ML Escalation: {ml_result['justification']}")
+                    result['ml_escalation'] = True
+            
             # Log analysis
             if result['is_malicious']:
                 threat_info = {
@@ -80,7 +129,9 @@ class FileAnalyzer:
                     'size': result['size'],
                     'type': file_ext,
                     'reasons': result['reasons'],
-                    'severity': 'CRITICAL' if 'known malware' in ' '.join(result['reasons']).lower() else 'SUSPICIOUS'
+                    'severity': 'CRITICAL' if 'known malware' in ' '.join(result['reasons']).lower() else 'SUSPICIOUS',
+                    'ml_classification': result.get('ml_analysis', {}).get('classification', 'N/A'),
+                    'ml_confidence': result.get('ml_analysis', {}).get('confidence', 0.0)
                 }
                 self.logger.log_threat(threat_info)
             
@@ -88,6 +139,54 @@ class FileAnalyzer:
             result['reasons'].append(f"Analysis error: {str(e)}")
         
         return result
+    
+    def _calculate_entropy_from_content(self, content):
+        """Calcular entropía de Shannon para el contenido"""
+        if not content or len(content) == 0:
+            return 0.0
+        
+        # Contar frecuencia de bytes
+        byte_counts = [0] * 256
+        for byte_val in content:
+            byte_counts[byte_val] += 1
+        
+        # Calcular entropía
+        entropy = 0.0
+        content_len = len(content)
+        
+        for count in byte_counts:
+            if count == 0:
+                continue
+            probability = count / content_len
+            entropy -= probability * (probability.bit_length() - 1 if probability > 0 else 0)
+        
+        return min(entropy, 8.0)
+    
+    def _extract_apis(self, pe_info):
+        """Extraer APIs de la información PE"""
+        apis = []
+        if pe_info and 'Imports' in pe_info:
+            imports = pe_info['Imports'].split(', ')
+            # Filtrar solo APIs sospechosas conocidas
+            suspicious_keywords = ['Virtual', 'Process', 'Thread', 'Memory', 'Inject', 'Hook']
+            for imp in imports:
+                if any(keyword in imp for keyword in suspicious_keywords):
+                    apis.append(imp)
+        return apis
+    
+    def _check_digital_signature(self, file_path):
+        """Verificar firma digital (simplificado)"""
+        # En una implementación real, usarías wincrypt o similar
+        # Aquí simplificamos verificando rutas conocidas
+        file_path_lower = file_path.lower()
+        
+        if 'windows\\system32' in file_path_lower or 'windows\\syswow64' in file_path_lower:
+            return {'valid': True, 'signer': 'Microsoft Corporation'}
+        elif 'program files\\microsoft' in file_path_lower or 'microsoft office' in file_path_lower:
+            return {'valid': True, 'signer': 'Microsoft Corporation'}
+        
+        return {'valid': False, 'signer': 'Unknown'}
+
     
     def _calculate_hashes(self, file_path):
         """Calcular hashes SHA256 y MD5"""
