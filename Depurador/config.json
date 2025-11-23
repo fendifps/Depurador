@@ -1,0 +1,34 @@
+{
+  "scan_paths": [
+    "C:\\"
+  ],
+  "max_file_size_mb": 100,
+  "excluded_extensions": [
+    ".tmp",
+    ".log",
+    ".bak"
+  ],
+  "max_threads": 8,
+  "deep_scan": false,
+  "scan_archives": false,
+  "quarantine_enabled": false,
+  "auto_delete_threats": false,
+  "update_signatures_on_start": false,
+  "signature_update_url": "https://signatures.depurador.local/updates",
+  "logging": {
+    "level": "INFO",
+    "max_log_size_mb": 50,
+    "keep_logs_days": 30
+  },
+  "scan_options": {
+    "scan_memory": false,
+    "scan_registry": false,
+    "scan_startup_items": true,
+    "scan_network_shares": false
+  },
+  "alerts": {
+    "email_enabled": false,
+    "email_address": "",
+    "sound_alerts": true
+  }
+}

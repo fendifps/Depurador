@@ -1,0 +1,162 @@
+{
+  "patterns": [
+    {
+      "id": "B001",
+      "type": "api_call",
+      "api_name": "CreateToolhelp32Snapshot",
+      "description": "Process enumeration capability",
+      "severity": "medium"
+    },
+    {
+      "id": "B002",
+      "type": "api_call",
+      "api_name": "OpenProcess",
+      "description": "Process manipulation capability",
+      "severity": "high"
+    },
+    {
+      "id": "B003",
+      "type": "api_call",
+      "api_name": "TerminateProcess",
+      "description": "Process termination capability",
+      "severity": "high"
+    },
+    {
+      "id": "B004",
+      "type": "import",
+      "import_name": "ws2_32.dll",
+      "description": "Network communication capability",
+      "severity": "medium"
+    },
+    {
+      "id": "B005",
+      "type": "import",
+      "import_name": "wininet.dll",
+      "description": "Internet access capability",
+      "severity": "medium"
+    },
+    {
+      "id": "B006",
+      "type": "api_call",
+      "api_name": "SetWindowsHookEx",
+      "description": "Keyboard/mouse hooking (potential keylogger)",
+      "severity": "critical"
+    },
+    {
+      "id": "B007",
+      "type": "api_call",
+      "api_name": "GetForegroundWindow",
+      "description": "Active window monitoring",
+      "severity": "medium"
+    },
+    {
+      "id": "B008",
+      "type": "section",
+      "section_name": ".upx",
+      "description": "Packed executable detected (UPX)",
+      "severity": "high"
+    },
+    {
+      "id": "B009",
+      "type": "section",
+      "section_name": ".aspack",
+      "description": "Packed executable detected (ASPack)",
+      "severity": "high"
+    },
+    {
+      "id": "B010",
+      "type": "api_call",
+      "api_name": "CryptAcquireContext",
+      "description": "Cryptographic operations capability",
+      "severity": "medium"
+    },
+    {
+      "id": "B011",
+      "type": "api_call",
+      "api_name": "GetClipboardData",
+      "description": "Clipboard monitoring capability",
+      "severity": "high"
+    },
+    {
+      "id": "B012",
+      "type": "api_call",
+      "api_name": "FindWindow",
+      "description": "Window enumeration capability",
+      "severity": "low"
+    },
+    {
+      "id": "B013",
+      "type": "api_call",
+      "api_name": "CreateMutex",
+      "description": "Mutex creation (anti-duplication)",
+      "severity": "low"
+    },
+    {
+      "id": "B014",
+      "type": "api_call",
+      "api_name": "RegOpenKeyEx",
+      "description": "Registry access capability",
+      "severity": "medium"
+    },
+    {
+      "id": "B015",
+      "type": "api_call",
+      "api_name": "CreateService",
+      "description": "Service installation capability",
+      "severity": "high"
+    },
+    {
+      "id": "B016",
+      "type": "api_call",
+      "api_name": "StartService",
+      "description": "Service manipulation capability",
+      "severity": "medium"
+    },
+    {
+      "id": "B017",
+      "type": "api_call",
+      "api_name": "GetUserName",
+      "description": "User information gathering",
+      "severity": "low"
+    },
+    {
+      "id": "B018",
+      "type": "api_call",
+      "api_name": "GetComputerName",
+      "description": "Computer information gathering",
+      "severity": "low"
+    },
+    {
+      "id": "B019",
+      "type": "api_call",
+      "api_name": "SuspendThread",
+      "description": "Thread manipulation capability",
+      "severity": "high"
+    },
+    {
+      "id": "B020",
+      "type": "api_call",
+      "api_name": "SetThreadContext",
+      "description": "Thread context manipulation (process hollowing)",
+      "severity": "critical"
+    }
+  ],
+  "filename_patterns": [
+    "svchost.*\\.exe$",
+    "winlogon.*\\.exe$",
+    "csrss.*\\.exe$",
+    "lsass.*\\.exe$",
+    "^system32\\.exe$",
+    "^windows\\.exe$",
+    "\\d{8,}\\.exe$",
+    "^temp.*\\.exe$",
+    "^tmp.*\\.exe$",
+    "^~.*\\.exe$",
+    "crack|keygen|patch",
+    "loader|injector|stealer",
+    ".*\\.(scr|pif|com)$"
+  ],
+  "version": "1.0.0",
+  "last_updated": "2025-11-22",
+  "total_patterns": 20
+}

@@ -1,0 +1,167 @@
+{
+  "rules": [
+    {
+      "id": "H001",
+      "type": "byte_pattern",
+      "pattern": "4d5a90000300000004",
+      "description": "PE header with suspicious characteristics",
+      "severity": "medium",
+      "extensions": [".exe", ".dll", ".sys"]
+    },
+    {
+      "id": "H002",
+      "type": "string_pattern",
+      "pattern": "URLDownloadToFile",
+      "description": "File download capability detected",
+      "severity": "high",
+      "extensions": [".exe", ".dll"]
+    },
+    {
+      "id": "H003",
+      "type": "string_pattern",
+      "pattern": "CreateRemoteThread",
+      "description": "Process injection capability detected",
+      "severity": "critical",
+      "extensions": [".exe", ".dll"]
+    },
+    {
+      "id": "H004",
+      "type": "string_pattern",
+      "pattern": "VirtualAllocEx",
+      "description": "Memory manipulation detected",
+      "severity": "high",
+      "extensions": [".exe", ".dll"]
+    },
+    {
+      "id": "H005",
+      "type": "string_pattern",
+      "pattern": "WriteProcessMemory",
+      "description": "Process memory writing capability",
+      "severity": "high",
+      "extensions": [".exe", ".dll"]
+    },
+    {
+      "id": "H006",
+      "type": "regex",
+      "pattern": "\\b(bitcoin|btc|wallet|ransom|decrypt)\\b",
+      "description": "Ransomware-related keywords detected",
+      "severity": "critical",
+      "extensions": [".exe", ".dll", ".ps1", ".bat"]
+    },
+    {
+      "id": "H007",
+      "type": "string_pattern",
+      "pattern": "RegSetValueEx",
+      "description": "Registry modification capability",
+      "severity": "medium",
+      "extensions": [".exe", ".dll"]
+    },
+    {
+      "id": "H008",
+      "type": "string_pattern",
+      "pattern": "ShellExecute",
+      "description": "Shell execution capability detected",
+      "severity": "medium",
+      "extensions": [".exe", ".dll"]
+    },
+    {
+      "id": "H009",
+      "type": "string_pattern",
+      "pattern": "CryptEncrypt",
+      "description": "Encryption capability detected",
+      "severity": "medium",
+      "extensions": [".exe", ".dll"]
+    },
+    {
+      "id": "H010",
+      "type": "string_pattern",
+      "pattern": "GetAsyncKeyState",
+      "description": "Keylogging capability detected",
+      "severity": "critical",
+      "extensions": [".exe", ".dll"]
+    },
+    {
+      "id": "H011",
+      "type": "regex",
+      "pattern": "\\b(cmd\\.exe|powershell\\.exe)\\b",
+      "description": "Command line execution detected",
+      "severity": "medium",
+      "extensions": [".exe", ".dll", ".bat"]
+    },
+    {
+      "id": "H012",
+      "type": "string_pattern",
+      "pattern": "IsDebuggerPresent",
+      "description": "Anti-debugging technique detected",
+      "severity": "high",
+      "extensions": [".exe", ".dll"]
+    },
+    {
+      "id": "H013",
+      "type": "regex",
+      "pattern": "\\b(sandbox|vmware|virtualbox|vbox)\\b",
+      "description": "Anti-VM/Sandbox detection",
+      "severity": "high",
+      "extensions": [".exe", ".dll"]
+    },
+    {
+      "id": "H014",
+      "type": "string_pattern",
+      "pattern": "InternetOpen",
+      "description": "Internet connectivity capability",
+      "severity": "medium",
+      "extensions": [".exe", ".dll"]
+    },
+    {
+      "id": "H015",
+      "type": "string_pattern",
+      "pattern": "HttpSendRequest",
+      "description": "HTTP communication capability",
+      "severity": "medium",
+      "extensions": [".exe", ".dll"]
+    },
+    {
+      "id": "H016",
+      "type": "regex",
+      "pattern": "\\b(mimikatz|lazagne|credential|password)\\b",
+      "description": "Credential theft indicators",
+      "severity": "critical",
+      "extensions": [".exe", ".dll", ".ps1"]
+    },
+    {
+      "id": "H017",
+      "type": "string_pattern",
+      "pattern": "NtQuerySystemInformation",
+      "description": "System information gathering",
+      "severity": "medium",
+      "extensions": [".exe", ".dll"]
+    },
+    {
+      "id": "H018",
+      "type": "string_pattern",
+      "pattern": "LoadLibrary",
+      "description": "Dynamic library loading",
+      "severity": "low",
+      "extensions": [".exe", ".dll"]
+    },
+    {
+      "id": "H019",
+      "type": "regex",
+      "pattern": "\\b(inject|payload|shellcode|exploit)\\b",
+      "description": "Exploitation-related terms detected",
+      "severity": "critical",
+      "extensions": [".exe", ".dll", ".ps1"]
+    },
+    {
+      "id": "H020",
+      "type": "string_pattern",
+      "pattern": "WinExec",
+      "description": "Program execution capability",
+      "severity": "medium",
+      "extensions": [".exe", ".dll"]
+    }
+  ],
+  "version": "1.0.0",
+  "last_updated": "2025-11-22",
+  "total_rules": 20
+}

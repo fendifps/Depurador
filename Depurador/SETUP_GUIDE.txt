@@ -1,0 +1,347 @@
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                                                                           ║
+║                  DEPURADOR - SETUP GUIDE COMPLETA                         ║
+║                  Guía paso a paso de instalación                          ║
+║                                                                           ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+═══════════════════════════════════════════════════════════════════════════
+  TABLA DE CONTENIDOS
+═══════════════════════════════════════════════════════════════════════════
+
+  1. Requisitos Previos
+  2. Descarga de Archivos
+  3. Estructura del Proyecto
+  4. Instalación Automática
+  5. Instalación Manual
+  6. Verificación de la Instalación
+  7. Primera Ejecución
+  8. Solución de Problemas
+  9. Actualización del Sistema
+
+═══════════════════════════════════════════════════════════════════════════
+  1. REQUISITOS PREVIOS
+═══════════════════════════════════════════════════════════════════════════
+
+OBLIGATORIOS:
+  ✓ Windows 10 o Windows 11
+  ✓ Python 3.8 o superior
+  ✓ 2 GB de RAM mínimo (4 GB recomendado)
+  ✓ 500 MB de espacio en disco
+  ✓ Conexión a Internet (solo para instalación)
+
+RECOMENDADOS:
+  ✓ Permisos de Administrador
+  ✓ Antivirus deshabilitado temporalmente (puede bloquear algunos archivos)
+  ✓ Editor de texto (Notepad++, VS Code, etc.)
+
+═══════════════════════════════════════════════════════════════════════════
+  2. DESCARGA DE ARCHIVOS
+═══════════════════════════════════════════════════════════════════════════
+
+Asegúrate de tener TODOS estos archivos:
+
+  📁 Archivos principales (.py):
+     • main.py
+     • scanner.py
+     • analyzer.py
+     • signature_engine.py
+     • logger.py
+     • test_suite.py
+
+  📁 Archivos de configuración (.json):
+     • config.json
+     • malware_hashes.json
+     • heuristic_rules.json
+     • behavioral_patterns.json
+
+  📁 Archivos batch (.bat):
+     • install_and_run.bat
+     • run_depurador.bat
+
+  📁 Archivos de documentación:
+     • README.md
+     • QUICK_START.txt
+     • SETUP_GUIDE.txt (este archivo)
+     • requirements.txt
+     • LICENSE
+     • .gitignore
+
+═══════════════════════════════════════════════════════════════════════════
+  3. ESTRUCTURA DEL PROYECTO
+═══════════════════════════════════════════════════════════════════════════
+
+Organiza los archivos EXACTAMENTE así:
+
+  C:\Tu_Carpeta\                          ← Carpeta raíz del proyecto
+  │
+  ├── install_and_run.bat                 ← Script de instalación
+  ├── run_depurador.bat                   ← Script de ejecución rápida
+  │
+  └── Depurador\                          ← Carpeta principal
+      │
+      ├── src\                            ← Código fuente
+      │   ├── main.py
+      │   ├── scanner.py
+      │   ├── analyzer.py
+      │   ├── signature_engine.py
+      │   └── logger.py
+      │
+      ├── signatures\                     ← Base de datos
+      │   ├── malware_hashes.json
+      │   ├── heuristic_rules.json
+      │   └── behavioral_patterns.json
+      │
+      ├── logs\                           ← Se crea automáticamente
+      │
+      ├── depurador_env\                  ← Se crea automáticamente
+      │
+      ├── config.json
+      ├── requirements.txt
+      ├── README.md
+      ├── QUICK_START.txt
+      ├── SETUP_GUIDE.txt
+      ├── LICENSE
+      ├── .gitignore
+      └── test_suite.py
+
+IMPORTANTE: Si la estructura no es exacta, el programa NO FUNCIONARÁ.
+
+═══════════════════════════════════════════════════════════════════════════
+  4. INSTALACIÓN AUTOMÁTICA (RECOMENDADO)
+═══════════════════════════════════════════════════════════════════════════
+
+Paso 1: Verifica que Python esté instalado
+  
+  • Abre CMD (Win + R → cmd → Enter)
+  • Ejecuta: python --version
+  • Deberías ver: Python 3.x.x
+  
+  Si NO aparece:
+    → Ve a https://www.python.org/downloads/
+    → Descarga Python 3.8 o superior
+    → IMPORTANTE: Durante instalación marca ☑ "Add Python to PATH"
+
+Paso 2: Ejecuta el instalador
+
+  Opción A - Doble clic:
+    • Navega a la carpeta raíz
+    • Doble clic en: install_and_run.bat
+    • Espera a que termine (puede tardar 2-5 minutos)
+
+  Opción B - Desde CMD:
+    • Abre CMD en la carpeta raíz
+    • Ejecuta: install_and_run.bat
+    • Presiona Enter
+
+Paso 3: Espera la instalación
+
+  El script automáticamente:
+    [1/8] ✓ Verifica Python
+    [2/8] ✓ Crea estructura de directorios
+    [3/8] ✓ Crea entorno virtual
+    [4/8] ✓ Activa entorno virtual
+    [5/8] ✓ Actualiza pip
+    [6/8] ✓ Instala dependencias (colorama, pefile)
+    [7/8] ✓ Verifica instalación
+    [8/8] ✓ Verifica archivos del proyecto
+
+Paso 4: Ejecuta Depurador
+
+  Al finalizar, el script preguntará:
+    "Do you want to start Depurador now? (Y/N)"
+  
+  • Presiona Y para iniciar
+  • Presiona N para salir
+
+═══════════════════════════════════════════════════════════════════════════
+  5. INSTALACIÓN MANUAL
+═══════════════════════════════════════════════════════════════════════════
+
+Si el script automático falla, instala manualmente:
+
+Paso 1: Abre CMD en la carpeta Depurador
+
+  • Navega a: C:\Tu_Carpeta\Depurador
+  • Shift + Clic derecho → "Abrir ventana de comandos aquí"
+
+Paso 2: Crea el entorno virtual
+
+  python -m venv depurador_env
+
+Paso 3: Activa el entorno virtual
+
+  depurador_env\Scripts\activate
+
+  Deberías ver: (depurador_env) C:\Tu_Carpeta\Depurador>
+
+Paso 4: Actualiza pip
+
+  python -m pip install --upgrade pip
+
+Paso 5: Instala dependencias
+
+  pip install -r requirements.txt
+
+  O manualmente:
+  pip install colorama pefile
+
+Paso 6: Verifica la instalación
+
+  python -c "import colorama, pefile; print('OK')"
+
+  Debería imprimir: OK
+
+Paso 7: Ejecuta Depurador
+
+  cd src
+  python main.py
+
+═══════════════════════════════════════════════════════════════════════════
+  6. VERIFICACIÓN DE LA INSTALACIÓN
+═══════════════════════════════════════════════════════════════════════════
+
+Para verificar que todo está correcto:
+
+Método 1: Test Suite Automático
+
+  cd Depurador
+  python test_suite.py
+
+  Debería mostrar:
+    ═══════════════════════════════════════════════
+    ALL TESTS PASSED! ✓
+    ═══════════════════════════════════════════════
+
+Método 2: Verificación Manual
+
+  1. Verifica que existe: Depurador\depurador_env\
+  2. Verifica que existe: Depurador\logs\
+  3. Ejecuta: run_depurador.bat
+  4. Debería ver el menú principal
+
+═══════════════════════════════════════════════════════════════════════════
+  7. PRIMERA EJECUCIÓN
+═══════════════════════════════════════════════════════════════════════════
+
+Recomendaciones para tu primer escaneo:
+
+1. Ejecuta run_depurador.bat o:
+   
+   depurador_env\Scripts\activate
+   cd src
+   python main.py
+
+2. En el menú, selecciona: [2] Quick Scan
+
+3. Espera a que termine (5-15 minutos)
+
+4. Revisa el reporte en: logs\scan_report_*.txt
+
+5. Prueba analizar un archivo: [3] Analyze Single File
+
+═══════════════════════════════════════════════════════════════════════════
+  8. SOLUCIÓN DE PROBLEMAS
+═══════════════════════════════════════════════════════════════════════════
+
+PROBLEMA: "Python is not installed"
+SOLUCIÓN:
+  • Instala Python desde python.org
+  • Marca "Add Python to PATH"
+  • Reinicia tu PC
+
+PROBLEMA: "pefile module not found"
+SOLUCIÓN:
+  • Abre CMD
+  • Ejecuta: pip install pefile
+
+PROBLEMA: "colorama module not found"
+SOLUCIÓN:
+  • Abre CMD
+  • Ejecuta: pip install colorama
+
+PROBLEMA: "Permission denied"
+SOLUCIÓN:
+  • Ejecuta CMD como Administrador
+  • O cambia la carpeta de instalación
+
+PROBLEMA: El .bat no se ejecuta
+SOLUCIÓN:
+  • Clic derecho → "Ejecutar como administrador"
+  • O sigue la instalación manual
+
+PROBLEMA: Archivos no encontrados
+SOLUCIÓN:
+  • Verifica la estructura del proyecto
+  • Asegúrate que todos los archivos estén en su lugar
+
+PROBLEMA: El escaneo es muy lento
+SOLUCIÓN:
+  • Edita config.json
+  • Cambia "max_threads": 8 a "max_threads": 4
+  • Reduce "max_file_size_mb"
+
+PROBLEMA: Muchos falsos positivos
+SOLUCIÓN:
+  • Es normal con detección heurística
+  • Revisa manualmente los archivos
+  • Ajusta heuristic_rules.json si es necesario
+
+═══════════════════════════════════════════════════════════════════════════
+  9. ACTUALIZACIÓN DEL SISTEMA
+═══════════════════════════════════════════════════════════════════════════
+
+Para actualizar Depurador:
+
+1. Actualizar firmas:
+   • Edita: signatures\malware_hashes.json
+   • Agrega nuevos hashes
+   • En Depurador, selecciona: [6] Update Signatures
+
+2. Actualizar Python:
+   • Descarga la última versión de Python
+   • Instala sobre la versión actual
+   • Recrea el entorno virtual
+
+3. Actualizar dependencias:
+   • Activa el entorno: depurador_env\Scripts\activate
+   • Ejecuta: pip install --upgrade colorama pefile
+
+═══════════════════════════════════════════════════════════════════════════
+  COMANDOS ÚTILES
+═══════════════════════════════════════════════════════════════════════════
+
+Ver versión de Python:
+  python --version
+
+Ver paquetes instalados:
+  pip list
+
+Reinstalar paquete:
+  pip uninstall colorama
+  pip install colorama
+
+Limpiar caché de pip:
+  pip cache purge
+
+Ejecutar tests:
+  python test_suite.py
+
+Ver logs:
+  type logs\depurador.log
+
+═══════════════════════════════════════════════════════════════════════════
+  CONTACTO Y SOPORTE
+═══════════════════════════════════════════════════════════════════════════
+
+Para más ayuda:
+  • Lee README.md
+  • Revisa QUICK_START.txt
+  • Ejecuta test_suite.py
+  • Revisa logs\depurador.log
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                                                                           ║
+║              ¡INSTALACIÓN COMPLETA! READY TO SCAN 🛡️                     ║
+║                                                                           ║
+╚═══════════════════════════════════════════════════════════════════════════╝

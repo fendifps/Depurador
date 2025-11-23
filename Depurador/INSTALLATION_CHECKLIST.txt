@@ -1,0 +1,284 @@
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                                                                           ║
+║              DEPURADOR - INSTALLATION CHECKLIST                           ║
+║              Lista de verificación completa                               ║
+║                                                                           ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+Use esta lista para verificar que todo está instalado correctamente.
+Marca cada ítem con [X] cuando esté completo.
+
+═══════════════════════════════════════════════════════════════════════════
+  FASE 1: REQUISITOS PREVIOS
+═══════════════════════════════════════════════════════════════════════════
+
+[ ] Windows 10 o 11 instalado
+[ ] Python 3.8+ instalado
+    Comando: python --version
+    Resultado esperado: Python 3.8.x o superior
+
+[ ] Python en PATH
+    Comando: where python
+    Resultado esperado: C:\...\python.exe
+
+[ ] pip instalado
+    Comando: pip --version
+    Resultado esperado: pip xx.x.x from...
+
+[ ] Permisos de administrador (opcional pero recomendado)
+[ ] 500 MB de espacio en disco disponible
+[ ] Conexión a Internet activa
+
+═══════════════════════════════════════════════════════════════════════════
+  FASE 2: ARCHIVOS DEL PROYECTO
+═══════════════════════════════════════════════════════════════════════════
+
+Archivos Python (.py) - 6 archivos:
+[ ] main.py
+[ ] scanner.py
+[ ] analyzer.py
+[ ] signature_engine.py
+[ ] logger.py
+[ ] test_suite.py
+
+Archivos JSON - 4 archivos:
+[ ] config.json
+[ ] malware_hashes.json
+[ ] heuristic_rules.json
+[ ] behavioral_patterns.json
+
+Archivos Batch (.bat) - 2 archivos:
+[ ] install_and_run.bat
+[ ] run_depurador.bat
+
+Archivos de Documentación - 6 archivos:
+[ ] README.md
+[ ] QUICK_START.txt
+[ ] SETUP_GUIDE.txt
+[ ] INSTALLATION_CHECKLIST.txt (este archivo)
+[ ] requirements.txt
+[ ] LICENSE
+[ ] .gitignore
+
+TOTAL: 19 archivos
+
+═══════════════════════════════════════════════════════════════════════════
+  FASE 3: ESTRUCTURA DE CARPETAS
+═══════════════════════════════════════════════════════════════════════════
+
+Verifica que la estructura sea exactamente así:
+
+[ ] Tu_Carpeta\
+    [ ] install_and_run.bat ✓
+    [ ] run_depurador.bat ✓
+    [ ] Depurador\
+        [ ] src\
+            [ ] main.py ✓
+            [ ] scanner.py ✓
+            [ ] analyzer.py ✓
+            [ ] signature_engine.py ✓
+            [ ] logger.py ✓
+        [ ] signatures\
+            [ ] malware_hashes.json ✓
+            [ ] heuristic_rules.json ✓
+            [ ] behavioral_patterns.json ✓
+        [ ] config.json ✓
+        [ ] requirements.txt ✓
+        [ ] README.md ✓
+        [ ] QUICK_START.txt ✓
+        [ ] SETUP_GUIDE.txt ✓
+        [ ] INSTALLATION_CHECKLIST.txt ✓
+        [ ] LICENSE ✓
+        [ ] .gitignore ✓
+        [ ] test_suite.py ✓
+
+═══════════════════════════════════════════════════════════════════════════
+  FASE 4: INSTALACIÓN
+═══════════════════════════════════════════════════════════════════════════
+
+Método Automático:
+[ ] Ejecuté install_and_run.bat
+[ ] El script completó sin errores
+[ ] Se creó la carpeta depurador_env\
+[ ] Se creó la carpeta logs\
+[ ] Se instaló colorama
+[ ] Se instaló pefile
+
+Método Manual (si el automático falló):
+[ ] Ejecuté: python -m venv depurador_env
+[ ] Ejecuté: depurador_env\Scripts\activate
+[ ] Ejecuté: pip install -r requirements.txt
+[ ] No hubo errores durante la instalación
+
+═══════════════════════════════════════════════════════════════════════════
+  FASE 5: VERIFICACIÓN DE INSTALACIÓN
+═══════════════════════════════════════════════════════════════════════════
+
+[ ] El entorno virtual existe:
+    Ruta: Depurador\depurador_env\
+
+[ ] Los logs se crearon:
+    Ruta: Depurador\logs\
+
+[ ] Las dependencias están instaladas:
+    Comando: pip list
+    [ ] colorama encontrado
+    [ ] pefile encontrado
+
+[ ] Los módulos se importan correctamente:
+    Comando: python -c "import colorama, pefile; print('OK')"
+    Resultado esperado: OK
+
+═══════════════════════════════════════════════════════════════════════════
+  FASE 6: PRIMERA EJECUCIÓN
+═══════════════════════════════════════════════════════════════════════════
+
+[ ] Ejecuté run_depurador.bat o python src/main.py
+[ ] El banner de Depurador apareció correctamente
+[ ] El menú principal se muestra
+[ ] Las firmas se cargaron:
+    - Malware hashes: XX signatures loaded
+    - Heuristic rules: XX rules active
+    - Behavioral patterns: XX patterns loaded
+
+═══════════════════════════════════════════════════════════════════════════
+  FASE 7: PRUEBAS FUNCIONALES
+═══════════════════════════════════════════════════════════════════════════
+
+[ ] Ejecuté test_suite.py
+[ ] Todos los tests pasaron
+[ ] Se crearon archivos de prueba en test_samples\
+[ ] El escáner detectó archivos maliciosos de prueba
+[ ] Se generaron reportes en logs\
+
+Test Individual de Funcionalidades:
+[ ] Opción [2] Quick Scan funciona
+[ ] Opción [3] Analyze Single File funciona
+[ ] Opción [4] Custom Path Scan funciona
+[ ] Opción [5] View Last Scan Report funciona
+[ ] Opción [6] Update Signatures funciona
+
+═══════════════════════════════════════════════════════════════════════════
+  FASE 8: VERIFICACIÓN DE COMPONENTES
+═══════════════════════════════════════════════════════════════════════════
+
+Motor de Firmas:
+[ ] malware_hashes.json contiene 40+ hashes
+[ ] heuristic_rules.json contiene 20+ reglas
+[ ] behavioral_patterns.json contiene 20+ patrones
+
+Sistema de Logging:
+[ ] Se creó depurador.log
+[ ] Los reportes se guardan en logs\
+[ ] Los reportes incluyen fecha y hora
+
+Scanner:
+[ ] El escaneo multihilo funciona
+[ ] Se muestran estadísticas en tiempo real
+[ ] Se detectan extensiones sospechosas
+
+Analyzer:
+[ ] Analiza archivos correctamente
+[ ] Calcula hashes SHA256 y MD5
+[ ] Detecta patrones sospechosos
+
+═══════════════════════════════════════════════════════════════════════════
+  FASE 9: CONFIGURACIÓN
+═══════════════════════════════════════════════════════════════════════════
+
+[ ] Revisé config.json
+[ ] Ajusté max_threads según mi PC
+[ ] Configuré scan_paths si es necesario
+[ ] Revisé excluded_extensions
+
+═══════════════════════════════════════════════════════════════════════════
+  FASE 10: RENDIMIENTO Y OPTIMIZACIÓN
+═══════════════════════════════════════════════════════════════════════════
+
+[ ] Quick Scan tarda menos de 20 minutos
+[ ] El programa no se congela durante el escaneo
+[ ] Los reportes se generan correctamente
+[ ] El uso de memoria es razonable
+
+Si el escaneo es muy lento:
+[ ] Reduje max_threads en config.json
+[ ] Aumenté max_file_size_mb
+[ ] Agregué más extensiones a excluded_extensions
+
+═══════════════════════════════════════════════════════════════════════════
+  CHECKLIST FINAL - SISTEMA LISTO
+═══════════════════════════════════════════════════════════════════════════
+
+Marca TODOS estos ítems antes de considerar la instalación completa:
+
+[ ] ✓ Python 3.8+ instalado y funcionando
+[ ] ✓ Todos los 19 archivos en su lugar
+[ ] ✓ Estructura de carpetas correcta
+[ ] ✓ Entorno virtual creado (depurador_env\)
+[ ] ✓ Dependencias instaladas (colorama, pefile)
+[ ] ✓ Banner y menú principal funcionando
+[ ] ✓ Test suite pasó todos los tests
+[ ] ✓ Quick Scan funciona correctamente
+[ ] ✓ Reportes se generan en logs\
+[ ] ✓ Sin errores en la ejecución
+
+═══════════════════════════════════════════════════════════════════════════
+  SOLUCIÓN RÁPIDA DE PROBLEMAS
+═══════════════════════════════════════════════════════════════════════════
+
+Si algo no funciona:
+
+1. Python no encontrado:
+   → Reinstala Python con "Add to PATH" marcado
+
+2. Módulos no encontrados:
+   → pip install colorama pefile
+
+3. Scripts no se ejecutan:
+   → Clic derecho → "Ejecutar como administrador"
+
+4. Estructura incorrecta:
+   → Verifica que TODOS los archivos estén en su lugar
+
+5. Errores durante escaneo:
+   → Revisa logs\depurador.log
+
+6. Escaneo muy lento:
+   → Reduce max_threads en config.json
+
+═══════════════════════════════════════════════════════════════════════════
+  PRÓXIMOS PASOS
+═══════════════════════════════════════════════════════════════════════════
+
+Una vez que todos los checks estén completos:
+
+1. [ ] Ejecuta tu primer Quick Scan
+2. [ ] Revisa el reporte generado
+3. [ ] Prueba analizar archivos individuales
+4. [ ] Familiarízate con el menú
+5. [ ] Lee el README.md completo
+6. [ ] Personaliza config.json según tus necesidades
+
+═══════════════════════════════════════════════════════════════════════════
+  SOPORTE
+═══════════════════════════════════════════════════════════════════════════
+
+Si necesitas ayuda adicional:
+
+□ Lee README.md - Documentación completa
+□ Lee QUICK_START.txt - Guía rápida
+□ Lee SETUP_GUIDE.txt - Guía detallada de instalación
+□ Ejecuta test_suite.py - Tests automatizados
+□ Revisa logs\depurador.log - Errores del sistema
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                                                                           ║
+║  ✓ Si todos los checks están marcados, ¡tu instalación es EXITOSA! 🎉   ║
+║                                                                           ║
+║                     ¡DEPURADOR LISTO PARA USAR! 🛡️                       ║
+║                                                                           ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+Fecha de instalación: ___/___/______
+Versión: 1.0.0
+Usuario: ___________________
