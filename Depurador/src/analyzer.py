@@ -1,7 +1,8 @@
 """
 Depurador - File Analyzer Module
 Análisis detallado de ejecutables y archivos sospechosos
-INTEGRACIÓN: ML Recursive Classifier para reducir falsos positivos
+INTEGRACIÓN: ML Recursive Classifier + Advanced RAT Detector
+Version: 2.1.0 - Ultra-Aggressive Detection
 """
 
 import os
@@ -16,14 +17,22 @@ except ImportError:
     ML_AVAILABLE = False
     print(f"{Fore.YELLOW}[!] ML Classifier not available. Install or check ml_classifier.py")
 
+try:
+    from advanced_detector import AdvancedDetector
+    ADVANCED_DETECTOR_AVAILABLE = True
+except ImportError:
+    ADVANCED_DETECTOR_AVAILABLE = False
+    print(f"{Fore.YELLOW}[!] Advanced Detector not available. Basic detection only.")
+
 
 class FileAnalyzer:
     """Analizador de archivos individuales"""
     
-    def __init__(self, signature_engine, logger, enable_ml=True):
+    def __init__(self, signature_engine, logger, enable_ml=True, enable_advanced=True):
         self.signature_engine = signature_engine
         self.logger = logger
         self.ml_classifier = RecursiveClassifier(enable_ml=enable_ml) if ML_AVAILABLE else None
+        self.advanced_detector = AdvancedDetector(signature_engine.signatures_dir) if ADVANCED_DETECTOR_AVAILABLE and enable_advanced else None
     
     def analyze_file(self, file_path):
         """Análisis completo de un archivo"""
@@ -79,6 +88,33 @@ class FileAnalyzer:
                 if script_result['is_suspicious']:
                     result['is_malicious'] = True
                     result['reasons'].extend(script_result['reasons'])
+            
+            # ========== DETECCIÓN AVANZADA DE RAT (NUEVO v2.1) ==========
+            if self.advanced_detector:
+                file_info_for_detection = {
+                    'size': result['size'],
+                    'entropy': self._calculate_entropy_from_content(content) if len(content) > 0 else 0
+                }
+                
+                advanced_result = self.advanced_detector.deep_scan_file(
+                    file_path,
+                    content[:min(5 * 1024 * 1024, len(content))],  # Max 5MB
+                    file_info_for_detection
+                )
+                
+                # Si el detector avanzado encuentra RAT/Backdoor
+                if advanced_result['is_rat'] or advanced_result['is_backdoor']:
+                    result['is_malicious'] = True
+                    result['advanced_detection'] = advanced_result
+                    
+                    # Agregar razones del detector avanzado
+                    if advanced_result['rat_indicators']:
+                        for indicator in advanced_result['rat_indicators']:
+                            result['reasons'].append(f"[ADVANCED] {indicator}")
+                    
+                    # Marcar como crítico si es RAT
+                    if advanced_result['severity'] == 'CRITICAL':
+                        result['reasons'].insert(0, f"⚠ RAT/BACKDOOR DETECTED - Confidence: {advanced_result['confidence']*100:.0f}%")
             
             # ========== INTEGRACIÓN ML CLASSIFIER ==========
             if self.ml_classifier and self.ml_classifier.enabled:

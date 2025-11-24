@@ -1,0 +1,379 @@
+{
+  "version": "2.1.0",
+  "description": "Enhanced detection rules for RATs, backdoors, and advanced malware",
+  "last_updated": "2025-11-24",
+  
+  "rat_signatures": {
+    "description": "Remote Access Trojan specific signatures",
+    "api_patterns": [
+      "GetAsyncKeyState",
+      "SetWindowsHookEx",
+      "CallNextHookEx",
+      "GetForegroundWindow",
+      "GetWindowText",
+      "GetClipboardData",
+      "SetClipboardData",
+      "CreateRemoteThread",
+      "WriteProcessMemory",
+      "VirtualAllocEx",
+      "OpenProcess",
+      "CreateToolhelp32Snapshot",
+      "Process32First",
+      "Process32Next",
+      "RegOpenKeyEx",
+      "RegSetValueEx",
+      "RegCreateKeyEx",
+      "InternetOpenUrl",
+      "InternetReadFile",
+      "HttpSendRequest",
+      "WinExec",
+      "ShellExecute",
+      "CreateProcess",
+      "TerminateProcess",
+      "GetSystemInfo",
+      "GetComputerName",
+      "GetUserName",
+      "NetShareEnum",
+      "NetUserEnum",
+      "CryptEncrypt",
+      "CryptDecrypt",
+      "socket",
+      "connect",
+      "send",
+      "recv",
+      "listen",
+      "bind",
+      "WSAStartup"
+    ],
+    
+    "string_patterns": [
+      "RAT",
+      "backdoor",
+      "remote access",
+      "keylogger",
+      "screen capture",
+      "webcam",
+      "microphone",
+      "file manager",
+      "process manager",
+      "registry editor",
+      "command shell",
+      "reverse shell",
+      "bind shell",
+      "TCP socket",
+      "client connected",
+      "connection established",
+      "waiting for connection",
+      "admin panel",
+      "control panel",
+      "victim",
+      "attacker",
+      "payload",
+      "dropper",
+      "injector",
+      "stub",
+      "crypter",
+      "FUD",
+      "undetectable",
+      "bypass",
+      "AV",
+      "antivirus",
+      "firewall",
+      "defender",
+      "persistence",
+      "autostart",
+      "startup",
+      "run key",
+      "scheduled task",
+      "service install",
+      "hidden window",
+      "stealth",
+      "rootkit",
+      "hide process",
+      "inject dll",
+      "hollowing",
+      "runpe",
+      "base64",
+      "decode",
+      "decrypt",
+      "obfuscate",
+      "mutation"
+    ],
+    
+    "behavioral_indicators": [
+      "Creates files in Temp directory",
+      "Modifies registry Run keys",
+      "Creates scheduled tasks",
+      "Installs as service",
+      "Opens network sockets",
+      "Monitors keyboard input",
+      "Captures screenshots",
+      "Accesses webcam",
+      "Reads browser data",
+      "Steals credentials",
+      "Encrypts files",
+      "Downloads additional payloads",
+      "Communicates with C2 server",
+      "Process injection detected",
+      "API hooking detected",
+      "Anti-debugging techniques",
+      "VM detection attempts",
+      "Sandbox evasion",
+      "Disables security software"
+    ],
+    
+    "network_indicators": [
+      "Connects to suspicious IPs",
+      "Uses non-standard ports",
+      "Encrypted C2 traffic",
+      "Beaconing behavior",
+      "DNS tunneling",
+      "HTTP POST with binary data",
+      "IRC communication",
+      "Telegram bot API",
+      "Discord webhook",
+      "Pastebin access",
+      "Dynamic DNS domains"
+    ]
+  },
+  
+  "advanced_heuristics": {
+    "description": "Advanced heuristic detection rules",
+    
+    "entropy_rules": {
+      "high_entropy_threshold": 7.0,
+      "section_entropy_threshold": 7.5,
+      "description": "High entropy indicates packing or encryption"
+    },
+    
+    "pe_anomalies": [
+      "Unusual entry point",
+      "Suspicious section names (.upx, .aspack, .themida)",
+      "High number of imports",
+      "Imports from suspicious DLLs",
+      "No imports (packed)",
+      "Mismatched section sizes",
+      "Executable sections with high entropy",
+      "TLS callbacks present",
+      "Resource section anomalies",
+      "Overlay data present",
+      "Digital signature missing or invalid"
+    ],
+    
+    "file_characteristics": [
+      "Small file size (<50KB) with many capabilities",
+      "Large file size (>10MB) for simple functionality",
+      "Compilation timestamp in future",
+      "Compilation timestamp too old (before 2010)",
+      "PE header modified",
+      "DOS stub modified",
+      "Checksum mismatch",
+      "File description suspicious",
+      "Company name suspicious or missing",
+      "Version info missing",
+      "Icon extracted from system files"
+    ],
+    
+    "runtime_behavior": [
+      "Spawns child processes",
+      "Self-deletion attempts",
+      "File system monitoring",
+      "Registry monitoring",
+      "Clipboard monitoring",
+      "Screenshot capabilities",
+      "Audio recording",
+      "Video recording",
+      "Network packet capture",
+      "Browser history access",
+      "Password database access",
+      "Cryptocurrency wallet access",
+      "SSH key access",
+      "VPN configuration access"
+    ]
+  },
+  
+  "rat_families": {
+    "description": "Known RAT family signatures",
+    
+    "families": [
+      {
+        "name": "AsyncRAT",
+        "indicators": ["AsyncRAT", "Venom RAT", "Quasar", "Client.exe", "Stub.exe"]
+      },
+      {
+        "name": "DarkComet",
+        "indicators": ["DarkComet", "DC_MUTEX", "DCRAT"]
+      },
+      {
+        "name": "NjRAT",
+        "indicators": ["njRAT", "Bladabindi", "0.7d"]
+      },
+      {
+        "name": "Remcos",
+        "indicators": ["Remcos", "Breaking Security"]
+      },
+      {
+        "name": "QuasarRAT",
+        "indicators": ["Quasar", "xClient", "Server.exe"]
+      },
+      {
+        "name": "NanoCore",
+        "indicators": ["NanoCore", "NanoBot"]
+      },
+      {
+        "name": "Netwire",
+        "indicators": ["NetWire", "NetwireRAT"]
+      },
+      {
+        "name": "RevengeRAT",
+        "indicators": ["RevengeRAT", "RVRAT"]
+      },
+      {
+        "name": "LuminosityLink",
+        "indicators": ["LuminosityLink", "LuminRAT"]
+      },
+      {
+        "name": "Orcus",
+        "indicators": ["Orcus RAT", "OrcusRAT"]
+      },
+      {
+        "name": "PoisonIvy",
+        "indicators": ["Poison Ivy", "PIVY"]
+      },
+      {
+        "name": "Gh0st",
+        "indicators": ["Gh0st", "Gh0stRAT"]
+      },
+      {
+        "name": "PlugX",
+        "indicators": ["PlugX", "Korplug"]
+      },
+      {
+        "name": "XtremeRAT",
+        "indicators": ["Xtreme RAT", "XtremeRAT"]
+      },
+      {
+        "name": "CyberGate",
+        "indicators": ["CyberGate", "CYBERGATE"]
+      },
+      {
+        "name": "DarkTrack",
+        "indicators": ["DarkTrack", "DT_MUTEX"]
+      },
+      {
+        "name": "Imminent",
+        "indicators": ["Imminent Monitor", "ImminentRAT"]
+      },
+      {
+        "name": "Warzone",
+        "indicators": ["Warzone RAT", "Ave Maria"]
+      },
+      {
+        "name": "AgentTesla",
+        "indicators": ["Agent Tesla", "AgentTesla"]
+      },
+      {
+        "name": "FormBook",
+        "indicators": ["FormBook", "XLoader"]
+      }
+    ]
+  },
+  
+  "critical_apis": {
+    "description": "APIs that should trigger immediate suspicion",
+    
+    "process_manipulation": [
+      "NtCreateProcess",
+      "NtCreateThread",
+      "NtCreateThreadEx",
+      "RtlCreateUserThread",
+      "CreateRemoteThread",
+      "QueueUserAPC",
+      "SetThreadContext",
+      "NtSetContextThread",
+      "WriteProcessMemory",
+      "NtWriteVirtualMemory",
+      "VirtualAllocEx",
+      "NtAllocateVirtualMemory",
+      "NtMapViewOfSection",
+      "NtUnmapViewOfSection",
+      "ResumeThread",
+      "NtResumeThread"
+    ],
+    
+    "credential_theft": [
+      "LsaEnumerateLogonSessions",
+      "LsaGetLogonSessionData",
+      "CredEnumerate",
+      "CredRead",
+      "CryptUnprotectData",
+      "PFXImportCertStore"
+    ],
+    
+    "anti_analysis": [
+      "IsDebuggerPresent",
+      "CheckRemoteDebuggerPresent",
+      "NtQueryInformationProcess",
+      "NtSetInformationThread",
+      "OutputDebugString",
+      "GetTickCount",
+      "QueryPerformanceCounter",
+      "rdtsc"
+    ],
+    
+    "persistence": [
+      "RegCreateKeyEx",
+      "RegSetValueEx",
+      "CreateService",
+      "StartService",
+      "WinHttpOpen",
+      "URLDownloadToFile",
+      "WinExec"
+    ]
+  },
+  
+  "suspicious_strings": {
+    "description": "Strings that indicate malicious intent",
+    
+    "command_patterns": [
+      "cmd.exe /c",
+      "powershell.exe -enc",
+      "powershell.exe -exec bypass",
+      "certutil -decode",
+      "rundll32",
+      "regsvr32",
+      "mshta",
+      "wscript",
+      "cscript",
+      "bitsadmin"
+    ],
+    
+    "obfuscation_patterns": [
+      "base64",
+      "frombase64",
+      "decode",
+      "decrypt",
+      "xor",
+      "rc4",
+      "aes",
+      "uncompress",
+      "inflate",
+      "decompress"
+    ],
+    
+    "c2_patterns": [
+      "http://",
+      "https://",
+      "tcp://",
+      ".onion",
+      "pastebin.com",
+      "discord.gg",
+      "t.me/",
+      "bit.ly/",
+      "tinyurl.com",
+      "ngrok.io",
+      "duckdns.org",
+      "no-ip.com"
+    ]
+  }
+}
